@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  quarkus-db:
+    image: postgres:17.4-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: quarkus
+      POSTGRES_PASSWORD: quarkus
+      POSTGRES_DB: quarkusdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - quarkus_db_data:/var/lib/postgresql/data
+    networks:
+      - backend-net
+
+  keycloak-db:
+    image: postgres:17.4-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
+      POSTGRES_DB: keycloakdb
+    ports:
+      - "5433:5432"
+    volumes:
+      - keycloak_db_data:/var/lib/postgresql/data
+    networks:
+      - backend-net
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: keycloak
+    command: ["start-dev"]
+    restart: always
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://keycloak-db:5432/keycloakdb
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: keycloak
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: adminpassword
+    ports:
+      - "8180:8080"
+    depends_on:
+      - keycloak-db
+    networks:
+      - backend-net
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    restart: always
+    ports:
+      - "1025:1025"  # SMTP
+      - "8025:8025"  # HTTP web UI
+    networks:
+      - backend-net
+
+volumes:
+  quarkus_db_data:
+  keycloak_db_data:
+
+networks:
+  backend-net:
+    driver: bridge
