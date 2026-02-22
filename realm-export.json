@@ -931,7 +931,7 @@
       "clientId": "vue-spa",
       "name": "Vue SPA",
       "description": "",
-      "rootUrl": "http://front-server",
+      "rootUrl": "http://192.168.56.103",
       "adminUrl": "",
       "baseUrl": "",
       "surrogateAuthRequired": false,
