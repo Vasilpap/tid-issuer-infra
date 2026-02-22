@@ -1,42 +1,55 @@
 # TID Issuer Infrastructure (Docker Compose)
 
-Containerized infrastructure for local TID Issuer environments.
+Infrastructure stack used by the API and frontend.
 
 ## Services
 
 - `quarkus-db` (PostgreSQL for API)
 - `keycloak-db` (PostgreSQL for Keycloak)
 - `keycloak` (OIDC provider)
-- `minio` (object storage for article documents)
+- `minio` (object storage)
 
-## Quick Start
+```mermaid
+flowchart LR
+  API[Quarkus API] --> QDB[(quarkus-db)]
+  API --> KC[Keycloak]
+  API --> M[MinIO]
+  KC --> KDB[(keycloak-db)]
+```
 
-1. Copy `.env.example` to `.env` and set values.
-2. Start the stack:
+## How To Run
+
+1. Create env file:
+
+```bash
+cp .env.example .env
+```
+
+2. Start:
 
 ```bash
 docker compose up -d
 ```
 
-3. Stop the stack:
+3. Stop:
 
 ```bash
 docker compose down
 ```
 
-## Default Host Ports
+## Exposed Ports
 
-- PostgreSQL (API): `5432`
-- PostgreSQL (Keycloak): `5433`
-- Keycloak: `8180`
-- MinIO API: `9000`
-- MinIO Console: `9001`
+- `5432` -> API PostgreSQL
+- `5433` -> Keycloak PostgreSQL
+- `8180` -> Keycloak
+- `9000` -> MinIO API
+- `9001` -> MinIO Console
 
-## Realm Import
+## Realm Bootstrap
 
-`realm-export.json` is mounted into Keycloak for bootstrap configuration and test users/roles.
+`realm-export.json` is mounted and imported by Keycloak on startup.
 
 ## Notes
 
-- `docker-compose.yml` expects sensitive values from `.env`.
-- Do not commit real `.env` values.
+- Keep real secrets in `.env`, not in git.
+- `.env.example` is the template committed to repository.
