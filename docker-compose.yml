@@ -32,7 +32,7 @@ services:
   keycloak:
     image: quay.io/keycloak/keycloak:26.0.7
     container_name: keycloak
-    command: ["start-dev"]
+    command: ["start-dev", "--import-realm"]
     restart: always
     environment:
       KC_DB: postgres
@@ -47,19 +47,29 @@ services:
       - keycloak-db
     networks:
       - backend-net
+    volumes:
+      - ./realm-export.json:/opt/keycloak/data/import/realm-export.json:ro
 
-  mailhog:
-    image: mailhog/mailhog:v1.0.1
-    restart: always
+  minio:
+    image: minio/minio:RELEASE.2025-02-18T16-25-55Z
+    container_name: minio
+    command: server /data --console-address ":9001"
+    restart: unless-stopped
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
     ports:
-      - "127.0.0.1:1025:1025"  # SMTP
-      - "127.0.0.1:8025:8025"  # HTTP web UI
+      - "127.0.0.1:9000:9000"
+      - "127.0.0.1:9001:9001"
+    volumes:
+      - minio_data:/data
     networks:
       - backend-net
 
 volumes:
   quarkus_db_data:
   keycloak_db_data:
+  minio_data:
 
 networks:
   backend-net:
