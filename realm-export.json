@@ -931,7 +931,7 @@
       "clientId": "vue-spa",
       "name": "Vue SPA",
       "description": "",
-      "rootUrl": "http://192.168.56.103",
+      "rootUrl": "https://192.168.56.103",
       "adminUrl": "",
       "baseUrl": "",
       "surrogateAuthRequired": false,
@@ -941,12 +941,16 @@
       "redirectUris": [
         "http://localhost:5173/*",
         "http://front-server/*",
-        "http://192.168.56.103/*"
+        "http://192.168.56.103/*",
+        "https://front-server/*",
+        "https://192.168.56.103/*"
       ],
       "webOrigins": [
         "http://localhost:5173",
         "http://front-server",
-        "http://192.168.56.103"
+        "http://192.168.56.103",
+        "https://front-server",
+        "https://192.168.56.103"
       ],
       "notBefore": 0,
       "bearerOnly": false,
