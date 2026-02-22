@@ -31,6 +31,19 @@ This report summarizes the pre-public hardening across the TID Issuer repos.
 - `https://github.com/Vasilpap/tid-issuer-vue/tree/public-release-security-cleanup-2026-02-22`
 - `https://github.com/Vasilpap/tid-issuer-infra/tree/public-release-security-cleanup-2026-02-22`
 
+## Main Branch Update
+
+After approval, cleaned history and hardening commits were force-updated to `main`:
+
+- `tid-issuer-quarkus` main -> `984d102`
+- `tid-issuer-vue` main -> `6bb0dbf`
+- `tid-issuer-infra` main -> `08c0356`
+
+## Newly Published Repositories
+
+- `https://github.com/Vasilpap/tid-issuer-ansible` (`main`: `3f71044`)
+- `https://github.com/Vasilpap/tid-issuer-vagrant` (`main`: `904e59e`)
+
 ## Follow-up Before Public
 
 1. Rotate live credentials (DB, Keycloak admin, MinIO, any client secrets).
