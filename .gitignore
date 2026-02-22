@@ -23,6 +23,8 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.bak
+*.bak*
+realm-export.json.bak*
 *~
 
 # Docker override files (keep docker-compose.override.yml.example if you create one)
